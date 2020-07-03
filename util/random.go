@@ -5,6 +5,11 @@ import (
 	"time"
 )
 
+
+func CreateUserName(num int)string{
+	return RandomString(num)
+}
+
 func RandomString(num int)string{
 	var letter = []byte("abcdefghijklmnopqrstuvwxyz")
 	result := make([]byte, num)
@@ -13,5 +18,4 @@ func RandomString(num int)string{
 		result[i] = letter[rand.Intn(len(letter))]
 	}
 	return string(result)
-
 }

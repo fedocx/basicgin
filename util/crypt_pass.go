@@ -9,6 +9,11 @@ func Encode(password string)string{
 	return string(hashpassword)
 }
 
-func Decode(){
+func ComparePass(hashpass,pass string)bool{
+	if err := bcrypt.CompareHashAndPassword([]byte(hashpass),[]byte(pass));
+		err != nil {
+			return false
+	}
+	return true
 
 }

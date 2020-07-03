@@ -3,6 +3,8 @@ package controller
 import (
 	"github.com/fedocx/basicgin/common"
 	"github.com/fedocx/basicgin/util"
+	"log"
+	"net/http"
 
 	//"github.com/fedocx/basicgin/model"
 	"github.com/fedocx/basicgin/model"
@@ -34,7 +36,7 @@ func UserAdd(ctx *gin.Context){
 	}
 
 	if len(name) == 0 {
-		name = util.RandomString(10)
+		name = util.CreateUserName(10)
 		requestuser.Username = name
 	}
 	requestuser.Password = util.Encode(password)
@@ -56,9 +58,18 @@ func Login(ctx *gin.Context){
 			"message":"用户不能为空",
 		})
 	}
-	if user.Password == util.Encode(requestuser.Password) {
+	token,_ := common.ReleaseToken(user)
+	log.Print(token)
+	if util.ComparePass(user.Password,requestuser.Password){
+		log.Print("登录成功")
 		ctx.JSON(200,gin.H{
 			"message": "用户登录成功！",
+			"token": token,
 		})
 	}
+}
+
+func UserInfo(ctx *gin.Context){
+	user, _ := ctx.Get("user")
+	ctx.JSON(http.StatusOK, gin.H{"code": 200, "data": gin.H{"user": user.(model.UserInfo)}})
 }
