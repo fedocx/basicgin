@@ -11,6 +11,7 @@ func RouteAdd(server *gin.Engine)*gin.Engine{
 	//test
 	server.GET("/ping", controller.Ping)
 	//user manage
-	server.GET("/api/user/add", controller.UserAdd)
+	server.POST("/api/user/register", controller.UserAdd)
+	server.POST("/api/user/login", controller.Login)
 	return server
 }
